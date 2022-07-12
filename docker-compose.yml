@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  application:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    links:
+      - mysql:database
+  mysql:
+    image: mysql:8.0.21
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - 3306:3306
