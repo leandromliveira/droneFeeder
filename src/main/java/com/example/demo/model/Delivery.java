@@ -23,7 +23,7 @@ public class Delivery {
   private String latitude;
   private LocalDateTime postedDate;
   private LocalDateTime deliveredDate;
-  private String deliveryStatys;
+  private String deliveryStatus;
   private String video;
 
   public int getId() {
@@ -66,12 +66,12 @@ public class Delivery {
     this.deliveredDate = deliveredDate;
   }
 
-  public String getDeliveryStatys() {
-    return deliveryStatys;
+  public String getDeliveryStatus() {
+    return deliveryStatus;
   }
 
-  public void setDeliveryStatys(String deliveryStatys) {
-    this.deliveryStatys = deliveryStatys;
+  public void setDeliveryStatus(String deliveryStatus) {
+    this.deliveryStatus = deliveryStatus;
   }
 
   public String getVideo() {
