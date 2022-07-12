@@ -17,6 +17,7 @@ public class DroneService {
     Drone newDrone = new Drone();
     newDrone.setLatitude("-15.9041343");
     newDrone.setLongitude("-48.1299912");
+    newDrone.setAvailable(true);
     return repository.save(newDrone);
   }
 
