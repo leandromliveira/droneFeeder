@@ -9,16 +9,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Drone {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
+  @JsonBackReference
   @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Delivery> deliveries;
   private String latitude;
   private String longitude;
+  private Boolean available;
 
   public int getId() {
     return id;
@@ -54,6 +58,14 @@ public class Drone {
 
   public void addDelivery(Delivery delivery) {
     this.deliveries.add(delivery);
+  }
+
+  public Boolean isAvailable() {
+    return available;
+  }
+
+  public void setAvailable(Boolean available) {
+    this.available = available;
   }
 
 }
