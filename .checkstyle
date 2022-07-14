@@ -1,0 +1,88 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  Checkstyle-evaluator:
+    runs-on: self-hosted
+    name: Checkstyle
+    steps:
+      - name: Fetch project repository
+        uses: actions/checkout@v2
+
+      - name: Fetch Blocked Files Checkout action
+        uses: actions/checkout@v2
+        with:
+          repository: betrybe/blocked-files-checkout-action
+          ref: v2
+          token: ${{ secrets.GIT_HUB_PAT }}
+          path: .github/actions/blocked-files-checkout
+
+      - name: Restore protected files
+        uses: ./.github/actions/blocked-files-checkout
+        with:
+          restore_branch: 'main'
+
+      - name: Fetch Java Checkstyle evaluator
+        uses: actions/checkout@v2
+        with:
+          repository: betrybe/java-checkstyle-action
+          ref: v1
+          token: ${{ secrets.GIT_HUB_PAT }}
+          path: .github/actions/java-checkstyle-action
+
+      - name: Run Java Checkstyle evaluator
+        id: checkstyle-evaluator
+        uses: ./.github/actions/java-checkstyle-action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pr_number: ${{ github.event.pull_request.number }}
+  Evaluator:
+    runs-on: self-hosted
+    needs: [Checkstyle-evaluator]
+    name: Evaluator Job
+    steps:
+      - name: Fetch project repository
+        uses: actions/checkout@v2
+
+      - name: Fetch Blocked Files Checkout action
+        uses: actions/checkout@v2
+        with:
+          repository: betrybe/blocked-files-checkout-action
+          ref: v2
+          token: ${{ secrets.GIT_HUB_PAT }}
+          path: .github/actions/blocked-files-checkout
+
+      - name: Fetch JUnit evaluator
+        uses: actions/checkout@v2
+        with:
+          repository: betrybe/junit-evaluator-action
+          ref: v1
+          token: ${{ secrets.GIT_HUB_PAT }}
+          path: .github/actions/junit-evaluator
+
+      - name: Fetch Store evaluation
+        uses: actions/checkout@v2
+        with:
+          repository: betrybe/store-evaluation-action
+          ref: v4.2
+          token: ${{ secrets.GIT_HUB_PAT }}
+          path: .github/actions/store-evaluation
+
+      - name: Restore protected files
+        uses: ./.github/actions/blocked-files-checkout
+        with:
+          restore_branch: 'main'
+
+      - name: Run JUnit evaluation
+        id: evaluator
+        uses: ./.github/actions/junit-evaluator
+        with:
+          pr_author_username: ${{ github.event.pull_request.user.login }}
+
+      - name: Run Store evaluation
+        uses: ./.github/actions/store-evaluation
+        with:
+          evaluation-data: ${{ steps.evaluator.outputs.result }}
+          environment: production
+          pr-number: ${{ github.event.pull_request.number }}
