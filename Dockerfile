@@ -9,14 +9,3 @@ FROM openjdk:11.0-jre
 COPY --from=build-image /app/source/target/*.jar /app/app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
-
-# FROM maven:3.8.6-jdk-11
-# WORKDIR .
-# COPY . .
-# # RUN mvn clean install
-# CMD mvn spring-boot:run
-
-# FROM openjdk:11
-# ADD target/teste-0.0.1-SNAPSHOT.jar teste-0.0.1-SNAPSHOT.jar
-# EXPOSE 8080
-# ENTRYPOINT ["java", "-jar", "teste-0.0.1-SNAPSHOT.jar"]
