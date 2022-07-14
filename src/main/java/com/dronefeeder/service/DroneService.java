@@ -1,18 +1,19 @@
-package com.example.demo.service;
+package com.dronefeeder.service;
 
+import com.dronefeeder.model.Drone;
+import com.dronefeeder.repository.DroneRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.Drone;
-import com.example.demo.repository.DroneRepository;
 
 @Service
 public class DroneService {
   @Autowired
   private DroneRepository repository;
 
+  /**
+   * Method to create an drone.
+   */
   public Drone create() {
     Drone newDrone = new Drone();
     newDrone.setLatitude("-15.9041343");

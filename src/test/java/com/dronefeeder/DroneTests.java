@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.dronefeeder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeast;
@@ -24,8 +24,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.demo.model.Drone;
-import com.example.demo.repository.DroneRepository;
+import com.dronefeeder.model.Drone;
+import com.dronefeeder.repository.DroneRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

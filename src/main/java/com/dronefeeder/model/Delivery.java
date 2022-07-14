@@ -1,15 +1,16 @@
-package com.example.demo.model;
+package com.dronefeeder.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Delivery {
@@ -27,7 +28,10 @@ public class Delivery {
   private LocalDateTime postedDate;
   private LocalDateTime deliveredDate;
   private String deliveryStatus;
-  private String video;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "video_id")
+  private Video video;
 
   public int getId() {
     return id;
@@ -77,11 +81,11 @@ public class Delivery {
     this.deliveryStatus = deliveryStatus;
   }
 
-  public String getVideo() {
+  public Video getVideo() {
     return video;
   }
 
-  public void setVideo(String video) {
+  public void setVideo(Video video) {
     this.video = video;
   }
 

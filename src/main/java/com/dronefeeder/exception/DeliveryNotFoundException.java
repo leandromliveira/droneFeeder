@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.dronefeeder.exception;
 
 public class DeliveryNotFoundException extends RuntimeException {
   public DeliveryNotFoundException(String message) {

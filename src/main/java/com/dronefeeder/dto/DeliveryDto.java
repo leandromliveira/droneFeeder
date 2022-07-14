@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.dronefeeder.dto;
 
 public class DeliveryDto {
   private String latitude;

@@ -1,19 +1,17 @@
-package com.example.demo.service;
+package com.dronefeeder.service;
 
-import com.example.demo.repository.DeliveryRepository;
-import com.example.demo.repository.DroneRepository;
-import com.example.demo.exception.DeliveryNotFoundException;
-import com.example.demo.exception.DroneNotAvailableException;
-import com.example.demo.model.Delivery;
-import com.example.demo.model.Drone;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.dronefeeder.exception.DeliveryNotFoundException;
+import com.dronefeeder.exception.DroneNotAvailableException;
+import com.dronefeeder.model.Delivery;
+import com.dronefeeder.model.Drone;
+import com.dronefeeder.model.Video;
+import com.dronefeeder.repository.DeliveryRepository;
+import com.dronefeeder.repository.DroneRepository;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DeliveryService {
@@ -23,9 +21,13 @@ public class DeliveryService {
   @Autowired
   private DroneRepository droneRepository;
 
+  /**
+   * Methdo to create an Delivery.
+   */
   @Transactional
   public Delivery create(String latitude, String longitude) {
-    LocalDateTime postedDate = LocalDateTime.now();
+    LocalDateTime postedDate;
+    postedDate = LocalDateTime.now();
     List<Drone> droneList = droneRepository.findAll();
     Drone drone = droneList.stream().filter(d -> d.isAvailable() == true).findFirst().orElse(null);
     if (drone == null) {
@@ -39,7 +41,6 @@ public class DeliveryService {
     delivery.setDeliveryStatus("In transit");
     delivery.setPostedDate(postedDate);
     delivery.setDrone(drone);
-    // drone.addDelivery(delivery);
     return repository.save(delivery);
   }
 
@@ -51,10 +52,14 @@ public class DeliveryService {
     return repository.findById(id).orElse(null);
   }
 
+  /**
+   * Method do finishDelivery.
+   */
   @Transactional
-  public Delivery finishDelivery(int id, String video) {
+  public Delivery finishDelivery(int id, Video video) {
     Delivery delivery = repository.findById(id).orElse(null);
-    LocalDateTime deliveredDate = LocalDateTime.now();
+    LocalDateTime deliveredDate; 
+    deliveredDate = LocalDateTime.now();
     if (delivery == null) {
       throw new DeliveryNotFoundException("Delivery not found");
     }
