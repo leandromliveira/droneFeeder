@@ -4,6 +4,7 @@ import com.example.demo.service.DeliveryService;
 import com.example.demo.dto.DeliveryDto;
 import com.example.demo.dto.FinishDeliveryDto;
 import com.example.demo.model.Delivery;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,13 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
-@RequestMapping("/delivery")
+@RequestMapping(value = "/delivery",
+consumes = MediaType.APPLICATION_JSON_VALUE, 
+produces = MediaType.APPLICATION_JSON_VALUE)
 public class DeliveryController {
   @Autowired
   private DeliveryService service;
 
   @PostMapping
-  public Delivery create(@RequestBody DeliveryDto dto) {
+  public Delivery create(@RequestBody Delivery dto) {
     return service.create(dto.getLatitude(), dto.getLongitude());
 
   }
