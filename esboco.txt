@@ -28,3 +28,6 @@ docker
 
 testes
 --- não iniciado
+
+---
+implementar impedir criar uma delivery com latitude e longitude = null
