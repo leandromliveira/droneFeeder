@@ -1,11 +1,18 @@
-FROM maven:3.8.6-jdk-11 as build-image
-RUN mkdir -p /app/source
-COPY . /app/source
-WORKDIR /app/source
-RUN mvn clean install
-CMD mvn spring-boot:run
+FROM openjdk:11
 
-FROM openjdk:11.0-jre
-COPY --from=build-image /app/source/target/*.jar /app/app.jar
+ARG PROFILE
+ARG ADDITIONAL_OPTS
+
+ENV PROFILE=${PROFILE}
+ENV ADDITIONAL_OPTS=${ADDITIONAL_OPTS}
+
+WORKDIR /opt/spring_boot
+
+COPY /target/*.jar dronefeeder.jar
+
+SHELL ["/bin/sh", "-c"]
+
+EXPOSE 5005
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+CMD java ${ADDITIONAL_OPTS} -jar dronefeeder.jar --spring.profiles.active=${PROFILE}
