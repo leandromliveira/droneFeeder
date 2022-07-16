@@ -7,6 +7,8 @@ import com.dronefeeder.model.Drone;
 import com.dronefeeder.model.Video;
 import com.dronefeeder.repository.DeliveryRepository;
 import com.dronefeeder.repository.DroneRepository;
+import com.dronefeeder.repository.VideoRepository;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -20,6 +22,9 @@ public class DeliveryService {
 
   @Autowired
   private DroneRepository droneRepository;
+
+  @Autowired
+  private VideoRepository videoRepository;
 
   /**
    * Methdo to create an Delivery.
@@ -56,9 +61,11 @@ public class DeliveryService {
    * Method do finishDelivery.
    */
   @Transactional
-  public Delivery finishDelivery(int id, Video video) {
+  public Delivery finishDelivery(int id, int videoId) {
     Delivery delivery = repository.findById(id).orElse(null);
     LocalDateTime deliveredDate; 
+    Video video; 
+    video = videoRepository.findById(videoId).orElse(null);
     deliveredDate = LocalDateTime.now();
     if (delivery == null) {
       throw new DeliveryNotFoundException("Delivery not found");

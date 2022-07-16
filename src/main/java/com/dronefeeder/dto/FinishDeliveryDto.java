@@ -1,16 +1,14 @@
 package com.dronefeeder.dto;
 
-import com.dronefeeder.model.Video;
-
 public class FinishDeliveryDto {
-  private Video video;
+  private int videoId;
 
-  public Video getVideo() {
-    return video;
+  public int getVideoId() {
+    return videoId;
   }
 
-  public void setVideo(Video video) {
-    this.video = video;
+  public void setVideoId(int videoId) {
+    this.videoId = videoId;
   }
 
 }
