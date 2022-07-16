@@ -2,7 +2,6 @@ package com.dronefeeder.controller;
 
 import com.dronefeeder.service.VideoService;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import javax.sql.rowset.serial.SerialException;
@@ -25,11 +24,12 @@ public class VideoController {
   VideoService service;
 
   @PostMapping("/video/{deliveryId}")
-  public Blob handleFileUpload(@PathVariable("deliveryId") int deliveryId,
+  public String handleFileUpload(@PathVariable("deliveryId") int deliveryId,
       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
       throws IOException, SerialException, SQLException {
     byte[] bytes = file.getBytes();
-    return new javax.sql.rowset.serial.SerialBlob(service.create(deliveryId, bytes).getVideo());
+    service.create(deliveryId, bytes);
+    return "video upload with success!";
   }
 
   @GetMapping("/video")
