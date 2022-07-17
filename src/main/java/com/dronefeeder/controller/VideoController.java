@@ -23,6 +23,9 @@ public class VideoController {
   @Autowired
   VideoService service;
 
+  /**
+   * Method to upload a video file.
+   */
   @PostMapping("/video/{deliveryId}")
   public String handleFileUpload(@PathVariable("deliveryId") int deliveryId,
       @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
@@ -41,7 +44,7 @@ public class VideoController {
   @ResponseBody
   HttpEntity<byte[]> dowload(@PathVariable("id") int id)
       throws IOException {
-    byte[] arquivo = service.getFile(id).get().getVideo();
+    byte[] arquivo = service.getFile(id).getVideo();
     HttpHeaders httpHeaders = new HttpHeaders();
 
     httpHeaders.add("Content-Disposition", "attachment;filename=\"video-" + id + ".mp4\"");
