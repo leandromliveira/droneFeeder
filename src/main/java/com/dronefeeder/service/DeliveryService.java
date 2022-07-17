@@ -11,7 +11,6 @@ import com.dronefeeder.repository.VideoRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,6 @@ public class DeliveryService {
   /**
    * Methdo to create an Delivery.
    */
-  @Transactional
   public Delivery create(String latitude, String longitude) {
     LocalDateTime postedDate;
     postedDate = LocalDateTime.now();
@@ -60,13 +58,12 @@ public class DeliveryService {
   /**
    * Method do finishDelivery.
    */
-  @Transactional
   public Delivery finishDelivery(int id, int videoId) {
     Delivery delivery = repository.findById(id).orElse(null);
     LocalDateTime deliveredDate; 
+    deliveredDate = LocalDateTime.now();
     Video video; 
     video = videoRepository.findById(videoId).orElse(null);
-    deliveredDate = LocalDateTime.now();
     if (delivery == null) {
       throw new DeliveryNotFoundException("Delivery not found");
     }

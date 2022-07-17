@@ -26,10 +26,6 @@ public class Video {
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public byte[] getVideo() {
     return video;
   }

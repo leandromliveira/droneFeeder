@@ -6,7 +6,6 @@ import com.dronefeeder.model.Video;
 import com.dronefeeder.repository.DeliveryRepository;
 import com.dronefeeder.repository.VideoRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class VideoService {
         .collect(Collectors.toList());
   }
 
-  public Optional<Video> getFile(int id) {
-    return repository.findById(id);
+  public Video getFile(int id) {
+    return repository.findById(id).orElse(null);
   }
 }

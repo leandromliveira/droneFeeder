@@ -1,5 +1,17 @@
-package com.dronefeeder;
+package com.dronefeeder.controller;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.dronefeeder.dto.DeliveryDto;
+import com.dronefeeder.dto.FinishDeliveryDto;
+import com.dronefeeder.model.Delivery;
+import com.dronefeeder.service.DeliveryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,18 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import com.dronefeeder.dto.DeliveryDto;
-import com.dronefeeder.dto.FinishDeliveryDto;
-import com.dronefeeder.model.Delivery;
-import com.dronefeeder.service.DeliveryService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Collections;
-import java.util.List;
 
 @DisplayName("DeliveryControllerTest")
 @SpringBootTest
@@ -64,24 +64,29 @@ public class DeliveryControllerTest {
         .andReturn()
         .getResponse();
     
-    String jsonEsperado = "[{\"id\":0,\"drone\":null,\"longitude\":null,\"latitude\":null,\"postedDate\":null,\"deliveredDate\":null,\"deliveryStatus\":null,\"video\":null}]";
+    String jsonEsperado = 
+        "[{\"id\":0,\"drone\":null,\"longitude\":null,\"latitude\":null," 
+        + "\"postedDate\":null,\"deliveredDate\":null,\"deliveryStatus\":null,\"video\":null}]";
     Assertions.assertEquals(jsonEsperado, response.getContentAsString());
   }
 
   @Test
   @DisplayName("must be return a determined delivery")
-  public void TestGetDeliveryById() throws Exception {
+  public void testGetDeliveryById() throws Exception {
     Delivery delivery = new Delivery();
 
     when(deliveryService.getDeliveryById(delivery.getId())).thenReturn(delivery);
 
-    MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/" + delivery.getId())
-    .contentType(MediaType.APPLICATION_JSON))
-    .andExpect(status().isOk())
-    .andReturn()
-    .getResponse();
+    MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders
+        .get(PATH + "/" + delivery.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andReturn()
+        .getResponse();
 
-    String jsonEsperado = "{\"id\":0,\"drone\":null,\"longitude\":null,\"latitude\":null,\"postedDate\":null,\"deliveredDate\":null,\"deliveryStatus\":null,\"video\":null}";
+    String jsonEsperado = "{\"id\":0,\"drone\":null,\"longitude\":null,"
+        + "\"latitude\":null,\"postedDate\":null,\"deliveredDate\":null,"
+        + "\"deliveryStatus\":null,\"video\":null}";
     Assertions.assertEquals(jsonEsperado, response.getContentAsString());
   }
 
