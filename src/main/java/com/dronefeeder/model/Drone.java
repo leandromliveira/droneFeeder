@@ -27,10 +27,6 @@ public class Drone {
     return id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public String getLatitude() {
     return latitude;
   }
@@ -49,10 +45,6 @@ public class Drone {
 
   public List<Delivery> getDeliveries() {
     return deliveries;
-  }
-
-  public void setDeliveries(List<Delivery> deliveries) {
-    this.deliveries = deliveries;
   }
 
   public void addDelivery(Delivery delivery) {
