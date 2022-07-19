@@ -115,5 +115,4 @@ public class DeliveryControllerTest {
 
     verify(deliveryService, times(1)).finishDelivery(delivery.getId(), dto.getVideoId());
   }
-
 }
