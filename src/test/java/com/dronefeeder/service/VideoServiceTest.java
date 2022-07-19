@@ -1,5 +1,7 @@
 package com.dronefeeder.service;
 
+import com.dronefeeder.exception.DeliveryNotFoundException;
+import com.dronefeeder.exception.VideoNotFoundException;
 import com.dronefeeder.model.Delivery;
 import com.dronefeeder.model.Video;
 import com.dronefeeder.repository.DeliveryRepository;
@@ -42,6 +44,7 @@ public class VideoServiceTest {
     Delivery delivery = new Delivery();
     Optional<Delivery> opDelivery = Optional.of(delivery);
     Video video = new Video();
+    video.setDelivery(delivery);
     MockMultipartFile file = new MockMultipartFile(
         "file",
         "hello.txt",
@@ -55,6 +58,8 @@ public class VideoServiceTest {
     Mockito.when(deliveryRepository.findById(delivery.getId())).thenReturn(opDelivery);
 
     Assertions.assertEquals(video, service.create(delivery.getId(), video.getVideo()));
+
+    Assertions.assertEquals(delivery, service.create(delivery.getId(), video.getVideo()).getDelivery());
   }
 
   @Test
@@ -86,5 +91,23 @@ public class VideoServiceTest {
     Mockito.when(repository.findById(video.getId())).thenReturn(opVideo);
 
     Assertions.assertEquals(video, service.getFile(video.getId()));
+  }
+
+  @Test
+  @DisplayName("should throw an exception because video without an delivery is not allowed")
+  public void throwExceptionInVideoCreate() throws IOException {
+    Video video = new Video();
+
+    Assertions.assertThrows(DeliveryNotFoundException.
+        class, () -> service.create(0, video.getVideo()));
+  }
+
+  @Test
+  @DisplayName("should throw an exception if the video is not found")
+  public void throwExceptionVideoNotFound() throws IOException {
+    Integer nonExistentId = 404;
+    Mockito.when(repository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+    Assertions.assertThrows(VideoNotFoundException.class, () -> service.getFile(nonExistentId));
   }
 }
