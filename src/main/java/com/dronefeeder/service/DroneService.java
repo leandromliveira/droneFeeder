@@ -1,5 +1,6 @@
 package com.dronefeeder.service;
 
+import com.dronefeeder.exception.DroneNotFoundException;
 import com.dronefeeder.model.Drone;
 import com.dronefeeder.repository.DroneRepository;
 import java.util.List;
@@ -27,8 +28,15 @@ public class DroneService {
     return repository.findAll();
   }
 
+  /**
+   * Method to getDroneById.
+   */
   public Drone getDroneById(int id) {
-    return repository.findById(id).orElse(null);
+    Drone result = repository.findById(id).orElse(null);
+    if (result == null) {
+      throw new DroneNotFoundException("Drone not found");
+    }
+    return result;
   }
 
   public void delete(int id) {
