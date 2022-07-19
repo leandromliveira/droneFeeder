@@ -1,6 +1,7 @@
 package com.dronefeeder.service;
 
 import com.dronefeeder.exception.DeliveryNotFoundException;
+import com.dronefeeder.exception.VideoNotFoundException;
 import com.dronefeeder.model.Delivery;
 import com.dronefeeder.model.Video;
 import com.dronefeeder.repository.DeliveryRepository;
@@ -37,7 +38,14 @@ public class VideoService {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Method to getVideoById.
+   */
   public Video getFile(int id) {
-    return repository.findById(id).orElse(null);
+    Video result = repository.findById(id).orElse(null);
+    if (result == null) {
+      throw new VideoNotFoundException("Video not found");
+    } 
+    return result;
   }
 }
