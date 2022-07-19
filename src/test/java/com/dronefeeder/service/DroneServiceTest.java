@@ -3,9 +3,11 @@ package com.dronefeeder.service;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.dronefeeder.exception.DroneNotFoundException;
 import com.dronefeeder.model.Drone;
 import com.dronefeeder.repository.DroneRepository;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -71,5 +73,14 @@ public class DroneServiceTest {
     service.delete(drone.getId());
 
     verify(repository, times(1)).deleteById(drone.getId());
+  }
+
+  @Test
+  @DisplayName("should throw an exception if the drone is not found")
+  public void throwExceptionVideoNotFound() throws IOException {
+    Integer nonExistentId = 404;
+    Mockito.when(repository.findById(nonExistentId)).thenReturn(Optional.empty());
+
+    Assertions.assertThrows(DroneNotFoundException.class, () -> service.getDroneById(nonExistentId));
   }
 }
