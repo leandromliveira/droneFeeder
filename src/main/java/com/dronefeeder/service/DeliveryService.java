@@ -51,8 +51,15 @@ public class DeliveryService {
     return repository.findAll();
   }
 
+  /**
+   * Method to getDeliveryById.
+   */
   public Delivery getDeliveryById(int id) {
-    return repository.findById(id).orElse(null);
+    Delivery result = repository.findById(id).orElse(null);
+    if (result == null) {
+      throw new DeliveryNotFoundException("Delivery not found");
+    }
+    return result;
   }
 
   /**
