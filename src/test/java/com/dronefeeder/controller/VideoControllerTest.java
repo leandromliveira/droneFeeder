@@ -93,14 +93,13 @@ public class VideoControllerTest {
     video.setVideo(file.getBytes());
     delivery.setVideo(video);
 
-    when(service.getFile(delivery.getId())).thenReturn(delivery.getVideo());
+    when(service.getFile(video.getId())).thenReturn(delivery.getVideo());
 
     mockMvc.perform(MockMvcRequestBuilders
-        .get(PATH + "/" + delivery.getId())
+        .get(PATH + "/" + video.getId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
   
     verify(service, times(1)).getFile(video.getId());
-    
   }
 }
