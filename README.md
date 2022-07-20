@@ -36,7 +36,7 @@ Essas informações são armazenadas no banco de dados MySQL.
 
 Ferramentas necessárias para usar a aplicação:
 
-Você vai precisar do git instalado em sua máquina [Git](https://git-scm.com/downloads)
+Você vai precisar do [Git](https://git-scm.com/downloads) instalado em sua máquina. 
 
 Do [Java 11 ou superior - open-jdk também funciona -](https://www.java.com/pt-BR/download/)
 
